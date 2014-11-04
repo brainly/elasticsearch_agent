@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: Pawel Rozlach
+  company: Brainly.com sp. z o.o.
+  description: Automated setup of logstash forwarder
+  license: Apache 2.0
+  min_ansible_version: 1.6
+  platforms:
+    - name: Debian
+      versions:
+        - wheezy
+  categories:
+  - monitoring

@@ -1,0 +1,34 @@
+{
+  "network": {
+    "servers": [ {{ elasticsearch_servers }} ],
+    "ssl ca": "/etc/ssl/certs/Elasticsearch.crt",
+    "timeout": 15
+  },
+
+  "files": [
+{# dnslog part #}
+{% for log_type in [ "audit",
+                     "default"] %}
+    {
+      "paths": [
+        "/var/log/bind/named.{{ log_type }}.log"
+      ],
+      "fields": {
+        "type": "dnslog"
+         },
+      "dead time": "15m"
+    }
+,
+{% endfor %}
+    {
+      "paths": [
+        "/var/log/apache2/access.log"
+      ],
+      "fields": {
+        "application": "apache2",
+        "type": "accesslog",
+        },
+      "dead time": "2h"
+    }
+  ]
+}

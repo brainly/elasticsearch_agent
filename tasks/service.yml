@@ -1,0 +1,29 @@
+---
+- name: Install logstash-forwarder
+  apt:
+    name: logstash-forwarder
+    state: present
+    update_cache: yes
+
+#To tell the truth, we need /etc/ssl/certs folder, not the certificates
+- name: Install CA-Certificates
+  apt:
+    name: ca-certificates
+    state: present
+
+- name: Put logstash-forwarders configuration file
+  template:
+    src: logstash-forwarder.conf.j2
+    dest: /etc/logstash-forwarder
+    mode: 0644
+    owner: root
+    group: root
+    validate: 'python -mjson.tool %s'
+  notify:
+    - restart logstash-forwarder
+
+- name: Enable and start logstash-forwarder service
+  service:
+    name: logstash-forwarder
+    state: started
+    enabled: true
